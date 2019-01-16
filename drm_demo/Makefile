@@ -55,29 +55,28 @@ clean:
 clean_all: clean
 	@rm -rf /opt/accelize/drm_demo
 	@rm -f /usr/sbin/drmdemo
-	@$(eval USERS := $(wildcard /home/*))
+#	@$(eval USERS := $(wildcard /home/*))
 #	@for userdir in $(USERS); do \
 #        rm -f $$userdir/Desktop/autorun.sh;\
-    done
+#    done
 
 install:
-	@./install_requirements.sh
 	@mkdir -p /opt/accelize
 	@cp -rf ../drm_demo /opt/accelize/.
 	@chmod -R 755 /opt/accelize
 	@rm -f /usr/sbin/drmdemo
 	@ln -s /opt/accelize/drm_demo/autorun.sh /usr/sbin/drmdemo
-	@$(eval USERS := $(wildcard /home/*))
+#	@$(eval USERS := $(wildcard /home/*))
 #	@for userdir in $(USERS); do \
 #        cp autorun.sh $$userdir/Desktop/autorun.sh;\
-    done
+#    done
     
 check_env:
-	ifeq ($(AWS),1)
-	ifndef SDK_DIR
-		@$(error SDK_DIR is undefined. Try "source sdk_setup.sh" to set the software environment)
-	endif
-	endif
+ifeq ($(AWS),1)
+ifndef SDK_DIR
+	@$(error SDK_DIR is undefined. Try "source sdk_setup.sh" to set the software environment)
+endif
+endif
 
 .PHONY: all clean clean_all check_env install
 

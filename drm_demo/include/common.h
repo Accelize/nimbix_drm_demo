@@ -60,10 +60,10 @@ using namespace std;
 enum userNameIdx{ nancyIdx=0, fannyIdx, maryIdx, nbIdx};
 uint32_t gUserNameIndex=maryIdx;
 bool gFullScreenMode=false;
-std::string gAllowedUsers[] 	= {std::string("nancy@accelize.com"), std::string("fanny@accelize.com"), std::string("mary@accelize.com")};
+std::string gAllowedUsers[] 	= {std::string("nancy@bigcorp.com"), std::string("fanny@bigcorp.com"), std::string("mary@bigcorp.com")};
 std::string gLicenseModeStr[] 	= {std::string("NODELOCKED"), std::string("FLOATING"), std::string("METERED")};
 std::string gAppStatusStr[]  	= {std::string(" - "), std::string("STARTED")};
-std::string gIpStatusStr[]    	= {std::string(""), std::string("REQUESTING..."), std::string("LOCKED"), std::string("ACTIVATED")};
+std::string gIpStatusStr[]    	= {std::string(""), std::string("REQUESTING"), std::string("LOCKED"), std::string("ACTIVATED")};
 std::string gIpStatusColor[]  	= {std::string(RESET), std::string(LOADCOLOR), std::string(KOCOLOR), std::string(OKCOLOR)};
 std::string gSlotStateStr[] 	= {std::string(" "), std::string("NO_LIC"), std::string("NO_SEAT"), std::string("RUNNING"), std::string("ERROR")};
 
@@ -74,6 +74,7 @@ enum {
 	LICENSE_UNKNOWN
 };
 
+#define DRMDEMO_PATH std::string("/opt/accelize/drm_demo/")
 #ifdef NLPROV
 std::string gDrmLibConfPath[] = {std::string("conf/nodelocked_prov/"), std::string("conf/floating/"), std::string("conf/metered/")};
 #else
@@ -295,7 +296,7 @@ void displayDashboard()
         
         // Print App Status
         printTabEmptyLine('|', true, false);
-        printf("|%s %s %s", BOLDWHITE, centered(FCELLSIZE, "App Status").c_str(), RESET);
+        printf("|%s %s %s", BOLDWHITE, centered(FCELLSIZE, "DRM Status").c_str(), RESET);
         for(uint32_t i=0; i<gDashboard.nbSlots; i++) {
             std::string ipstatus = gIpStatusStr[gDashboard.slot[i].ipStatus];
             std::string ipstatcolor = gIpStatusColor[gDashboard.slot[i].ipStatus];
@@ -307,7 +308,7 @@ void displayDashboard()
         
         // Print STATE
         printTabEmptyLine('|');
-        printf("|%s %s %s", BOLDWHITE, centered(FCELLSIZE, "STATE").c_str(), RESET);
+        printf("|%s %s %s", BOLDWHITE, centered(FCELLSIZE, "App Status").c_str(), RESET);
         for(uint32_t i=0; i<gDashboard.nbSlots; i++) {
 			std::string state = gSlotStateStr[gDashboard.slot[i].slotState];
             printf("|%s %s %s", RESET, centered(CELLSIZE, state).c_str(), RESET);

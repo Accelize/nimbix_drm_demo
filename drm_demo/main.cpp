@@ -66,8 +66,8 @@ void SlotThread(uint32_t slotID)
 								
 				try {
 					pMSM = new MeteringSessionManager(
-						gDrmLibConfPath[gUserNameIndex] + std::string("conf.json"),
-						gDrmLibConfPath[gUserNameIndex] + std::string("cred.json"),
+						DRMDEMO_PATH + gDrmLibConfPath[gUserNameIndex] + std::string("conf.json"),
+						DRMDEMO_PATH + gDrmLibConfPath[gUserNameIndex] + std::string("cred.json"),
 						[&]( uint32_t  offset, uint32_t * value) { /*Read DRM register*/
 							return  my_read_drm(slotID, DRM_BASE_ADDRESS+offset, value);
 						},
@@ -184,7 +184,7 @@ void SlotThread(uint32_t slotID)
  */
 int parse_cmdline_arguments(int argc, char*argv[])
 {
-	std::string userName("mary@accelize.com");
+	std::string userName("mary@bigcorp.com");
     const char* const short_opts = "n:u:vdfh?";
     const option long_opts[] = {
             {"nb_slots", required_argument, nullptr, 'n'},
@@ -228,7 +228,7 @@ int parse_cmdline_arguments(int argc, char*argv[])
     } 
     
     if(userName.find('@')==std::string::npos) 
-		userName += std::string("@accelize.com");
+		userName += std::string("@bigcorp.com");
 	
 	if(!inWhiteList(userName)) {
 		std::cout << "ERROR: User [" << userName << "] is not in the whitelist " << std::endl;
@@ -257,8 +257,8 @@ int32_t debugMode(uint32_t slotID)
 	
 	printf("[%s] Start MSM ..\n", user.c_str());
 	pMSM = new MeteringSessionManager(
-		gDrmLibConfPath[gUserNameIndex] + std::string("conf.json"),
-		gDrmLibConfPath[gUserNameIndex] + std::string("cred.json"),
+		DRMDEMO_PATH + gDrmLibConfPath[gUserNameIndex] + std::string("conf.json"),
+		DRMDEMO_PATH + gDrmLibConfPath[gUserNameIndex] + std::string("cred.json"),
 		[&]( uint32_t  offset, uint32_t * value) { /*Read DRM register*/
 			return  my_read_drm(slotID, DRM_BASE_ADDRESS+offset, value);
 		},

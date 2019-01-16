@@ -56,8 +56,8 @@ clean_all: clean
 	@rm -rf /opt/accelize/drm_demo
 	@rm -f /usr/sbin/drmdemo
 	@$(eval USERS := $(wildcard /home/*))
-	@for userdir in $(USERS); do \
-        rm -f $$userdir/Desktop/autorun.sh;\
+#	@for userdir in $(USERS); do \
+#        rm -f $$userdir/Desktop/autorun.sh;\
     done
 
 install:
@@ -68,8 +68,8 @@ install:
 	@rm -f /usr/sbin/drmdemo
 	@ln -s /opt/accelize/drm_demo/run.sh /usr/sbin/drmdemo
 	@$(eval USERS := $(wildcard /home/*))
-	for userdir in $(USERS); do \
-        cp autorun.sh $$userdir/Desktop/autorun.sh;\
+#	@for userdir in $(USERS); do \
+#        cp autorun.sh $$userdir/Desktop/autorun.sh;\
     done
     
 check_env:

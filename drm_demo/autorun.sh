@@ -1,4 +1,3 @@
 #!/bin/bash
-cd /opt/accelize/drm_demo
-#xfce4-terminal --maximize -T "Accelize DRM Demo" -e 'bash -c "./run.sh;bash"'
-./run.sh
+
+terminator -f --working-directory="/accelize_share/home/gdufourcq/gitWS/cs_demos/drm_demo/" -x sudo ACCELIZE_DRMLIB_VERBOSE=0 LD_LIBRARY_PATH=/opt/xilinx/xrt/lib:/usr/local/lib ./drm_demo -u mary

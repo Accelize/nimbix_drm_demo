@@ -23,23 +23,12 @@ ADD drmlib_install.sh /opt/accelize_build/drmlib_install.sh
 RUN chmod 777 /opt/accelize_build/drmlib_install.sh
 RUN /opt/accelize_build/drmlib_install.sh
 
-#ADD drmlib_install.sh /opt/accelize/drmlib_install.sh
-#RUN chmod 777 /opt/accelize/drmlib_install.sh
-#RUN /opt/accelize/drmlib_install.sh
-
 # Demo Copy and Compile
 ADD drm_demo /opt/accelize_build/drm_demo
 RUN cd /opt/accelize_build/drm_demo; make clean all; sudo make install
 
-#ADD drm_demo /opt/accelize/drm_demo/
-#RUN chmod -R 777 /opt/accelize
-#RUN make clean all -C /opt/accelize/drm_demo/
-
-# Create alias for autorun
-#RUN ln -s /opt/accelize/drm_demo/autorun.sh /usr/local/sbin/drmdemo
-
-# Readme.md
-#ADD README.md /opt/accelize/README.md
+# Remove Build Workspace
+RUN rm -fr /opt/accelize_build
 
 # Expose port 22 for local JARVICE emulation in docker
 EXPOSE 22

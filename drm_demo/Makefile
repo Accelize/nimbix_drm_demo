@@ -66,7 +66,7 @@ install:
 	@cp -rf ../drm_demo /opt/accelize/.
 	@chmod -R 755 /opt/accelize
 	@rm -f /usr/sbin/drmdemo
-	@ln -s /opt/accelize/drm_demo/run.sh /usr/sbin/drmdemo
+	@ln -s /opt/accelize/drm_demo/autorun.sh /usr/sbin/drmdemo
 	@$(eval USERS := $(wildcard /home/*))
 #	@for userdir in $(USERS); do \
 #        cp autorun.sh $$userdir/Desktop/autorun.sh;\

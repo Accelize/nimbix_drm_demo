@@ -14,21 +14,22 @@ ENV JARVICE_MACHINE nx5u
 ADD AppDef.json /etc/NAE/AppDef.json
 RUN curl --fail -X POST -d @/etc/NAE/AppDef.json https://api.jarvice.com/jarvice/validate
 
-# Create Accelize Workspace
-#RUN mkdir -p /opt/accelize/
+# Create Build Workspace
+RUN mkdir -p /opt/accelize_build
+RUN chmod 777  /opt/accelize_build
 
 # DRMLib Install
-ADD drmlib_install.sh /dev/shm/drmlib_install.sh
-RUN chmod 777 /dev/shm/drmlib_install.sh
-RUN /dev/shm/drmlib_install.sh
+ADD drmlib_install.sh /opt/accelize_build/drmlib_install.sh
+RUN chmod 777 /opt/accelize_build/drmlib_install.sh
+RUN /opt/accelize_build/drmlib_install.sh
 
 #ADD drmlib_install.sh /opt/accelize/drmlib_install.sh
 #RUN chmod 777 /opt/accelize/drmlib_install.sh
 #RUN /opt/accelize/drmlib_install.sh
 
 # Demo Copy and Compile
-ADD drm_demo /dev/shm/drm_demo
-RUN cd /dev/shm/drm_demo; make clean all; sudo make install
+ADD drm_demo /opt/accelize_build/drm_demo
+RUN cd /opt/accelize_build/drm_demo; make clean all; sudo make install
 
 #ADD drm_demo /opt/accelize/drm_demo/
 #RUN chmod -R 777 /opt/accelize

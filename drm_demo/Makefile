@@ -68,8 +68,8 @@ install:
 	@rm -f /usr/sbin/drmdemo
 	@ln -s /opt/accelize/drm_demo/run.sh /usr/sbin/drmdemo
 	@$(eval USERS := $(wildcard /home/*))
-	@for userdir in $(USERS); do \
-        cp autorun.sh $$userdir/Desktop/.;\
+	for userdir in $(USERS); do \
+        cp autorun.sh $$userdir/Desktop/autorun.sh;\
     done
     
 check_env:

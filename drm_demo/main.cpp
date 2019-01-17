@@ -184,7 +184,7 @@ void SlotThread(uint32_t slotID)
  */
 int parse_cmdline_arguments(int argc, char*argv[])
 {
-	std::string userName("mary@bigcorp.com");
+	std::string userName("mary@acme.com");
     const char* const short_opts = "n:u:vdfh?";
     const option long_opts[] = {
             {"nb_slots", required_argument, nullptr, 'n'},
@@ -228,12 +228,9 @@ int parse_cmdline_arguments(int argc, char*argv[])
     } 
     
     if(userName.find('@')==std::string::npos) 
-		userName += std::string("@bigcorp.com");
+		userName += std::string("@acme.com");
 	
-	if(!inWhiteList(userName)) {
-		std::cout << "ERROR: User [" << userName << "] is not in the whitelist " << std::endl;
-		return 1;
-	}
+	setUserName(userName);
     
     if(gDashboard.nbSlots > MAX_NB_SLOTS) {
 		std::cout << "ERROR: Maximum number of slots is " << MAX_NB_SLOTS << std::endl;
@@ -256,9 +253,14 @@ int32_t debugMode(uint32_t slotID)
 	initFPGA(slotID);
 	
 	printf("[%s] Start MSM ..\n", user.c_str());
+	std::string conf_json_path = DRMDEMO_PATH + gDrmLibConfPath[gUserNameIndex] + std::string("conf.json");
+	std::string cred_json_path = DRMDEMO_PATH + gDrmLibConfPath[gUserNameIndex] + std::string("cred.json");
+	printf("[%s] \tconf.json path = [%s] ..\n", user.c_str(), conf_json_path.c_str());
+	printf("[%s] \tcred.json path = [%s] ..\n", user.c_str(), cred_json_path.c_str());
+
 	pMSM = new MeteringSessionManager(
-		DRMDEMO_PATH + gDrmLibConfPath[gUserNameIndex] + std::string("conf.json"),
-		DRMDEMO_PATH + gDrmLibConfPath[gUserNameIndex] + std::string("cred.json"),
+		conf_json_path,
+		cred_json_path,
 		[&]( uint32_t  offset, uint32_t * value) { /*Read DRM register*/
 			return  my_read_drm(slotID, DRM_BASE_ADDRESS+offset, value);
 		},

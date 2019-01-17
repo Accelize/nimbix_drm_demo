@@ -57,11 +57,11 @@ using namespace std;
 #define FSM_READ_IP_STATUS 		3
 #define FSM_ERROR 				4
 
-enum userNameIdx{ nancyIdx=0, fannyIdx, maryIdx, nbIdx};
+enum userNameIdx{ nancyIdx=0, fannyIdx, maryIdx, userIdx, nbIdx};
 uint32_t gUserNameIndex=maryIdx;
 bool gFullScreenMode=false;
-std::string gAllowedUsers[] 	= {std::string("nancy@bigcorp.com"), std::string("fanny@bigcorp.com"), std::string("mary@bigcorp.com")};
-std::string gLicenseModeStr[] 	= {std::string("NODELOCKED"), std::string("FLOATING"), std::string("METERED")};
+std::string gAllowedUsers[] 	= {std::string("nancy@acme.com"), std::string("fanny@acme.com"), std::string("mary@acme.com"), std::string("user@company.com")};
+std::string gLicenseModeStr[] 	= {std::string("NODELOCKED"), std::string("FLOATING (3 seats)"), std::string("METERED"), std::string("CUSTOM")};
 std::string gAppStatusStr[]  	= {std::string(" - "), std::string("STARTED")};
 std::string gIpStatusStr[]    	= {std::string(""), std::string("REQUESTING"), std::string("LOCKED"), std::string("ACTIVATED")};
 std::string gIpStatusColor[]  	= {std::string(RESET), std::string(LOADCOLOR), std::string(KOCOLOR), std::string(OKCOLOR)};
@@ -74,11 +74,12 @@ enum {
 	LICENSE_UNKNOWN
 };
 
-#define DRMDEMO_PATH std::string("/opt/accelize/drm_demo/")
+//#define DRMDEMO_PATH std::string("/opt/accelize/drm_demo/")
+#define DRMDEMO_PATH std::string("./")
 #ifdef NLPROV
-std::string gDrmLibConfPath[] = {std::string("conf/nodelocked_prov/"), std::string("conf/floating/"), std::string("conf/metered/")};
+std::string gDrmLibConfPath[] = {std::string("conf/nancy_prov/"), std::string("conf/fanny/"), std::string("conf/mary/"), std::string("conf/user/")};
 #else
-std::string gDrmLibConfPath[] = {std::string("conf/nodelocked/"), std::string("conf/floating/"), std::string("conf/metered/")};
+std::string gDrmLibConfPath[] = {std::string("conf/nancy/"), std::string("conf/fanny/"), std::string("conf/mary/"), std::string("conf/user/")};
 #endif
 
 // FPGA Design Defines
@@ -146,15 +147,16 @@ int32_t sysCommand(std::string cmd, std::string & output) {
 }
 
 
-bool inWhiteList(std::string userName)
+void setUserName(std::string userName)
 {
 	for(uint32_t i=0; i<nbIdx; i++) {
 		if(gAllowedUsers[i] == userName) {
 			gUserNameIndex=i;
-			return true;
+			return;
 		}
 	}
-	return false;
+	gAllowedUsers[userIdx] = userName;
+	gUserNameIndex=userIdx;
 }
 
 void addToRingBuffer(uint32_t slotID, std::string newEntry, char* color=(char*)RESET)
@@ -355,8 +357,11 @@ void updateCellIdFromMouseCoord(uint32_t x, uint32_t y)
 		for(uint32_t i=0; i<gDashboard.nbSlots; i++)
 			if(gDashboard.slot[i].slotStatus)
 				return;	
+		if(gUserNameIndex==userIdx)	// switch disabled when user account used
+			return;
+			
 		gUserNameIndex+=1;
-		if(gUserNameIndex==nbIdx)
+		if(gUserNameIndex==userIdx)	// Skip user account in demo mode
 			gUserNameIndex=nancyIdx;	
 		return;
 	}

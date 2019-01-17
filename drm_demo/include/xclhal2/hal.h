@@ -34,8 +34,6 @@ int32_t getBitstreamDSA(std::string & DSAname)
 	if(sysCommand(minor_cmd, minor)) return 1;
 	
 	DSAname = vendor + std::string("_") + boardid + std::string("_") + name + std::string("_") + major + std::string("_") + minor;
-	
-	printf("DSAname ret=%d out=[%s]\n", 0, DSAname.c_str());
 	return 0;	
 }
 

@@ -40,7 +40,7 @@ Open a terminal and run command "drmdemo"
   + use 'q' key to quit demo
 + Mouse interface:
   + click on a column to select FPGA board
-  + click on an highlited column to start application
+  + click on an highlighted column to start application
   + click on "ACCELIZE DRM DEMO" title to quit the demo
 
 

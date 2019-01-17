@@ -16,7 +16,7 @@ RUN curl --fail -X POST -d @/etc/NAE/AppDef.json https://api.jarvice.com/jarvice
 
 # Install Dependencies
 RUN apt-get -y update
-RUN apt-get -y install gedit geany
+RUN apt-get -y install gedit geany terminator
 
 # Create Build Workspace
 RUN mkdir -p /opt/accelize_build

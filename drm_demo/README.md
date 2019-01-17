@@ -4,7 +4,7 @@
 This demo is intended to demonstrate the FPGA design protection and metering capability provided by the Accelize Distribution Platform.
 
 The FPGA Design contains:
-- The Accelize DRM IP 
+- The Accelize DRM IP
 - A user IP embedding Accelize Activator IP 
 The user ip reports its activation status throught register and generates periodic activity (usage units)
 
@@ -14,7 +14,7 @@ For more information about Accelize IPs and Accelize Reference Design, please re
 
 ### Getting Started
 #### Start VM
-+ Amazon Web Services (AWS)   
++ Amazon Web Services (AWS)
   + Create Instance using following parameters
      + Instance type : f1.16xlarge
      + AMI Public Image : Accelize_FPGA_DRM_Demo_v**
@@ -44,7 +44,7 @@ Open a terminal and run command "drmdemo"
   + click on "ACCELIZE DRM DEMO" title to quit the demo
 
 
-### Run with your credentials 
+### Run with your credentials
 + Create an account on [Accelie DRM Portal](https://drmportal.accelize.com)
 + Select "END USERS" > "ACCESS KEYS" menu and create your access key
 + Edit /opt/accelize/drm_demo/conf/user/cred.json with with access key
@@ -56,4 +56,3 @@ Open a terminal and run command "drmdemo"
 ### Monitor the application usage units
 + Connect on [Accelie DRM Portal](https://drmportal.accelize.com)
 + Select "END USERS" > "USAGE" menu
-

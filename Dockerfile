@@ -26,6 +26,7 @@ RUN /opt/accelize_build/drmlib_install.sh
 # Demo Copy and Compile
 ADD drm_demo /opt/accelize_build/drm_demo
 RUN cd /opt/accelize_build/drm_demo; make clean all; sudo make install
+RUN mkdir -p /home/nimbix/Desktop
 RUN cd /opt/accelize_build/drm_demo; cp drmdemo.desktop /home/nimbix/Desktop/drmdemo.desktop; cp README.md /home/nimbix/Desktop/README.md
 
 # Remove Build Workspace

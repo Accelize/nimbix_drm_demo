@@ -1,6 +1,6 @@
 {
-    "name": "Accelize platform demo",
-    "description": "Accelize Distribution Platform under Ubuntu w/ Xilinx FPGA runtime",
+    "name": "Accelize DRM Demo",
+    "description": "Accelize Distribution Platform DRM Demo",
     "author": "Accelize",
     "licensed": true,
     "classifications": [

@@ -25,7 +25,7 @@ RUN /opt/accelize_build/drmlib_install.sh
 
 # Demo Copy and Compile
 ADD drm_demo /opt/accelize_build/drm_demo
-RUN rm -f /etc/rc.local; mv drm_demo/rc.local /etc/rc.local
+RUN rm -f /etc/rc.local; cd /opt/accelize_build/drm_demo; mv rc.local /etc/rc.local
 RUN cd /opt/accelize_build/drm_demo; make clean all; sudo make install 
 
 # Remove Build Workspace

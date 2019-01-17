@@ -15,7 +15,7 @@ ADD AppDef.json /etc/NAE/AppDef.json
 RUN curl --fail -X POST -d @/etc/NAE/AppDef.json https://api.jarvice.com/jarvice/validate
 
 # Install Dependencies
-RUN yum install gedit geany
+RUN apt-get install gedit geany
 
 # Create Build Workspace
 RUN mkdir -p /opt/accelize_build

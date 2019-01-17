@@ -9,7 +9,7 @@ if [ ${USEYUM} -eq 1 ]
 then
 	sudo yum update -y
 	sudo yum install -y epel-release
-	sudo yum install -y git gcc-c++ cmake libcurl-devel jsoncpp-devel boost boost-devel ncurses ncurses-devel
+	sudo yum install -y git cmake libcurl-devel jsoncpp-devel ncurses ncurses-devel
 	git clone git://dotat.at/unifdef.git unifdef
 	cd unifdef/
 	make
@@ -20,7 +20,7 @@ fi
 if [ ${USEAPT} -eq 1 ]
 then 
 	sudo apt-get update -y
-	sudo apt-get install -y git gcc-c++ cmake libcurl4-openssl-dev libjsoncpp-dev boost unifdef
+	sudo apt-get install -y git cmake libcurl4-openssl-dev libjsoncpp-dev unifdef
 fi
 
 git clone https://github.com/Accelize/drmlib drmlib

@@ -31,7 +31,7 @@ RUN /opt/accelize_build/drmlib_install.sh
 ADD drm_demo /opt/accelize_build/drm_demo
 RUN rm -f /etc/rc.local; cd /opt/accelize_build/drm_demo; mv rc.local /etc/rc.local; chmod +x /etc/rc.local
 RUN cd /opt/accelize_build/drm_demo; make clean all; sudo make install
-RUN rm -f /etc/update-motd.d/*; echo -e "#!/bin/bash\ncat /opt/accelize/drm_demo/ssh_welcome.txt" > /etc/update-motd.d/00-header
+RUN chmod -x /etc/update-motd.d/*; cp -f /opt/accelize/drm_demo/ssh_welcome.txt /etc/motd
 
 # Remove Build Workspace
 RUN rm -fr /opt/accelize_build

@@ -8,7 +8,7 @@
     "metering_url": "https://master.metering.accelize.com/auth/metering/genlicense/"
   },
   "drm": { 
-    "mode": "nodelocked", 
+    "mode": "nodelock", 
     "license_dir": "nl_licenses" 
   } 
 }

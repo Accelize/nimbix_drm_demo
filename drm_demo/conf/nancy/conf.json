@@ -4,7 +4,7 @@
     "boardType": "DRM_200"
   },
   "drm": { 
-    "mode": "nodelocked", 
+    "mode": "nodelock", 
     "license_dir": "nl_licenses" 
   } 
 }

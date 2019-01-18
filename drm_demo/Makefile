@@ -70,7 +70,12 @@ install:
 #	@for userdir in $(USERS); do \
 #        cp autorun.sh $$userdir/Desktop/autorun.sh;\
 #    done
-    
+
+uninstall:
+	@mkdir -p /opt/accelize
+	@rm -rf /opt/accelize/drm_demo
+	@rm -f /usr/sbin/drmdemo
+  
 check_env:
 ifeq ($(AWS),1)
 ifndef SDK_DIR
@@ -78,6 +83,6 @@ ifndef SDK_DIR
 endif
 endif
 
-.PHONY: all clean clean_all check_env install
+.PHONY: all clean clean_all check_env install uninstall
 
 .DEFAULT_GOAL := all

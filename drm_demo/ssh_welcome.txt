@@ -3,7 +3,7 @@
   / _ \ (_| (__| _|| |__ | | / /| _|  | |) |   / |\/| | | |) | _|| |\/| | (_) |
  /_/ \_\___\___|___|____|___/___|___| |___/|_|_\_|  |_| |___/|___|_|  |_|\___/
 
-Readme:             /home/centos/Desktop/README.md
+Readme:             /home/<username>/Desktop/README.md
 SSH:                Open a terminal full-screen and run command "drmdemo"
 VNC:                Double-click on drmdemo icon on the Desktop
 Support:            support@accelize.com

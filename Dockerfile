@@ -9,9 +9,9 @@ ENV JARVICE_MACHINE nx5u
 # FPGA bitstream to remove from container (*.xclbin format)
 #ENV XCLBIN_REMOVE drm_demo/bitstreams/u200/binary_container_1.xclbin
 
-
 # Metadata for App
 ADD AppDef.json /etc/NAE/AppDef.json
+ADD Accelize.png /etc/NAE/screenshot.png
 RUN curl --fail -X POST -d @/etc/NAE/AppDef.json https://api.jarvice.com/jarvice/validate
 
 # Install Dependencies
@@ -30,7 +30,8 @@ RUN /opt/accelize_build/drmlib_install.sh
 # Demo Copy and Compile
 ADD drm_demo /opt/accelize_build/drm_demo
 RUN rm -f /etc/rc.local; cd /opt/accelize_build/drm_demo; mv rc.local /etc/rc.local; chmod +x /etc/rc.local
-RUN cd /opt/accelize_build/drm_demo; make clean all; sudo make install 
+RUN cd /opt/accelize_build/drm_demo; make clean all; sudo make install
+RUN rm -f /etc/update-motd.d/*; mv /opt/accelize/drm_demo/ssh_welcome.txt  /etc/update-motd.d/00-header
 
 # Remove Build Workspace
 RUN rm -fr /opt/accelize_build

@@ -11,7 +11,7 @@ ENV JARVICE_MACHINE nx5u
 
 # Metadata for App
 ADD AppDef.json /etc/NAE/AppDef.json
-ADD Accelize.png /etc/NAE/screenshot.png
+ADD drm_demo_screenshot.png /etc/NAE/screenshot.png
 RUN curl --fail -X POST -d @/etc/NAE/AppDef.json https://api.jarvice.com/jarvice/validate
 
 # Install Dependencies
@@ -31,7 +31,7 @@ RUN /opt/accelize_build/drmlib_install.sh
 ADD drm_demo /opt/accelize_build/drm_demo
 RUN rm -f /etc/rc.local; cd /opt/accelize_build/drm_demo; mv rc.local /etc/rc.local; chmod +x /etc/rc.local
 RUN cd /opt/accelize_build/drm_demo; make clean all; sudo make install
-RUN rm -f /etc/update-motd.d/*; mv /opt/accelize/drm_demo/ssh_welcome.txt  /etc/update-motd.d/00-header
+RUN rm -f /etc/update-motd.d/*; echo -e "#!/bin/bash\ncat /opt/accelize/drm_demo/ssh_welcome.txt" > /etc/update-motd.d/00-header
 
 # Remove Build Workspace
 RUN rm -fr /opt/accelize_build

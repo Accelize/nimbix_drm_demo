@@ -83,17 +83,17 @@ install: uninstall
 	@rm -f /usr/sbin/helloworld
 	@ln -s /opt/accelize/helloworld_fpga/autorun.sh /usr/sbin/helloworld
 	@$(eval USERS := $(wildcard /home/*))
-	@for userdir in $(USERS); do \
+	@-for userdir in $(USERS); do \
 		cp helloworld_fpga.desktop $$userdir/Desktop/helloworld_fpga.desktop;\
 	done
 
 uninstall:
 	@rm -rf /opt/accelize/helloworld_fpga
 	@rm -f /usr/sbin/helloworld
-#	@$(eval USERS := $(wildcard /home/*))
-#	@for userdir in $(USERS); do \
-#		rm -f $$userdir/Desktop/autorun.sh;\
-#	done
+	@$(eval USERS := $(wildcard /home/*))
+	@-for userdir in $(USERS); do \
+		rm -f $$userdir/Desktop/helloworld_fpga.desktop;\
+	done
   
 check_env:
 ifeq ($(AWS),1)

@@ -18,21 +18,21 @@
     "variable": {
         "XCLBIN_BITSTREAM_PROGRAM": {
             "name": "Xilinx FPGA binary",
-            "description": "/opt/accelize/drm_demo/bitstreams/u200/binary_container_1.xclbin",
+            "description": "/opt/accelize/helloworld_fpga/bitstreams/u200/binary_container_1.xclbin",
             "userowned": false,
             "inherit": false,
             "required": false 
         },
         "XCLBIN_BITSTREAM_PROTECT": {
             "name": "Xilinx FPGA binary to delete",
-            "description": "/opt/accelize/drm_demo/bitstreams/u200/binary_container_1.xclbin",
+            "description": "/opt/accelize/helloworld_fpga/bitstreams/u200/binary_container_1.xclbin",
             "userowned": false,
             "inherit": false,
             "required": false
         }
     },
     "commands": {
-        "drm_demo_u200": {
+        "helloworld_fpga_u200": {
             "path": "/sbin/init",
             "interactive": true,
             "name": "Launch HelloWorld FPGA App",

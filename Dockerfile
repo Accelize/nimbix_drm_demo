@@ -21,7 +21,7 @@ RUN chmod 777  /opt/accelize_build
 # DRMLib Install
 ADD drmlib_install.sh /opt/accelize_build/drmlib_install.sh
 RUN chmod 777 /opt/accelize_build/drmlib_install.sh
-RUN /opt/accelize_build/drmlib_install.sh
+RUN alias cmake3=cmake;/opt/accelize_build/drmlib_install.sh
 
 # Demo Copy and Compile
 ADD helloworld_fpga /opt/accelize_build/helloworld_fpga

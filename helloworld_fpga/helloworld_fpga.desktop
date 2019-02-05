@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=helloworld_fpga
+Comment=Accelize HelloWorld FPGA Application
+Exec=/opt/accelize/helloworld_fpga/autorun.sh
+Terminal=true
+Type=Application

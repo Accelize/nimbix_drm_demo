@@ -11,8 +11,8 @@
 #
 # By default this script does nothing.
 
-cp /opt/accelize/drm_demo/README.md /home/nimbix/Desktop/README.md
-cp /opt/accelize/drm_demo/drmdemo.desktop /home/nimbix/Desktop/drmdemo.desktop
-chmod +x /home/nimbix/Desktop/drmdemo.desktop
+cp /opt/accelize/helloworld_fpga/README.md /home/nimbix/Desktop/README.md
+cp /opt/accelize/helloworld_fpga/helloworld_fpga.desktop /home/nimbix/Desktop/helloworld_fpga.desktop
+chmod +x /home/nimbix/Desktop/helloworld_fpga.desktop
 exit 0
 

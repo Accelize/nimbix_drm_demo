@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=drmdemo
-Comment=Accelize DRM Demo
-Exec=/opt/accelize/drm_demo/autorun.sh
-Terminal=true
-Type=Application

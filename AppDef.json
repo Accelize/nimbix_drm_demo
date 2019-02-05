@@ -1,6 +1,6 @@
 {
-    "name": "Accelize DRM Demo",
-    "description": "Accelize Distribution Platform DRM Demo",
+    "name": "Accelize HellowWorld FPGA",
+    "description": "Accelize HellowWorld FPGA",
     "author": "Accelize",
     "licensed": true,
     "classifications": [
@@ -35,8 +35,8 @@
         "drm_demo_u200": {
             "path": "/sbin/init",
             "interactive": true,
-            "name": "Launch DRM Demo",
-            "description": "Launch the DRM Demo",
+            "name": "Launch HelloWorld FPGA App",
+            "description": "Launch HelloWorld FPGA App",
             "parameters": {
             }
         }

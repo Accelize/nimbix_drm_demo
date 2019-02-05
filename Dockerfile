@@ -4,14 +4,10 @@ MAINTAINER Accelize, SAS.
 ENV DSA xilinx_u200_xdma_201820_1
 # JARVICE Machine Type. nx5u: Alveo u200, nx6u: Alveo u250
 ENV JARVICE_MACHINE nx5u
-# FPGA bitstream to configure accelerator (*.xclbin format)
-#ENV XCLBIN_PROGRAM drm_demo/bitstreams/u200/binary_container_1.xclbin
-# FPGA bitstream to remove from container (*.xclbin format)
-#ENV XCLBIN_REMOVE drm_demo/bitstreams/u200/binary_container_1.xclbin
 
 # Metadata for App
 ADD AppDef.json /etc/NAE/AppDef.json
-ADD drm_demo_screenshot.png /etc/NAE/screenshot.png
+ADD screenshot.png /etc/NAE/screenshot.png
 RUN curl --fail -X POST -d @/etc/NAE/AppDef.json https://api.jarvice.com/jarvice/validate
 
 # Install Dependencies
@@ -28,13 +24,13 @@ RUN chmod 777 /opt/accelize_build/drmlib_install.sh
 RUN /opt/accelize_build/drmlib_install.sh
 
 # Demo Copy and Compile
-ADD drm_demo /opt/accelize_build/drm_demo
+ADD helloworld_fpga /opt/accelize_build/helloworld_fpga
 ADD rc.local /opt/accelize_build/rc.local
 RUN rm -f /etc/rc.local; mv /opt/accelize_build/rc.local /etc/rc.local; chmod +x /etc/rc.local
-RUN cd /opt/accelize_build/drm_demo; make clean all; sudo make install
+RUN cd /opt/accelize_build/helloworld_fpga; make clean all; sudo make install
 
 # Change SSH Welcome Banner
-RUN rm -f /etc/update-motd.d/*; cp -f /opt/accelize/drm_demo/ssh_welcome.txt /etc/motd
+RUN rm -f /etc/update-motd.d/*; cp -f /opt/accelize/helloworld_fpga/ssh_welcome.txt /etc/motd
 
 # Remove Build Workspace
 RUN rm -fr /opt/accelize_build

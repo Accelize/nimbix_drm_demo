@@ -23,7 +23,7 @@ using namespace Accelize::DRM;
 std::mutex gDrmMutex;
 
 #include <xclhal2.h>
-#define XCLBIN_PATH std::string("/opt/accelize/drm_demo/bitstreams/u200/binary_container_1.xclbin")
+#define XCLBIN_PATH std::string("/opt/accelize/helloworld_fpga/bitstreams/u200/binary_container_1.xclbin")
 #define FPGA_PROG_CMD std::string("/opt/xilinx/xrt/bin/xbutil program -p ")
 
 // FPGA Design Defines

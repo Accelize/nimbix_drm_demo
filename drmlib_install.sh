@@ -7,35 +7,21 @@ USEAPT=$?
 if [ ${USEYUM} -eq 1 ]
 then
     sudo yum install -y epel-release
-    sudo yum install -y git cmake3 libcurl-devel jsoncpp-devel ncurses ncurses-devel
+    sudo yum install -y git libcurl-devel jsoncpp-devel ncurses ncurses-devel
+    sudo yum remove -y cmake
 fi
 
 if [ ${USEAPT} -eq 1 ]
 then 
     sudo apt-get update -y
-    sudo apt-get install -y git cmake libcurl4-openssl-dev libjsoncpp-dev
-    
-    # Install CMAKE 3.13.4
+    sudo apt-get install -y git libcurl4-openssl-dev libjsoncpp-dev
     sudo apt remove --purge --auto-remove cmake
-    
-    alias cmake=cmake3
-    version=3.13
-    build=4
-    mkdir ~/temp
-    cd ~/temp
-    wget https://cmake.org/files/v$version/cmake-$version.$build.tar.gz
-    tar -xzvf cmake-$version.$build.tar.gz
-    cd cmake-$version.$build/
-    ./bootstrap
-    make -j8
-    sudo make install
-    cd ~
-    rm -rf ~/temp
-    cmake --version
 fi
 
+sudo pip3 install cmake
 rm -rf drmlib
 git clone --single-branch --branch dev https://github.com/Accelize/drmlib drmlib
+git checkout 164904d8f2cab765ee78004bd543d328be4d1d9d
 cd drmlib/
 mkdir build
 cd build/

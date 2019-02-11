@@ -6,5 +6,5 @@
  
 Readme:             /home/<username>/Desktop/README.md
 SSH:                Open a terminal full-screen and run command "helloworld"
-VNC:                Double-click on helloworld_fpga icon on the Desktop
+VNC:                Double-click on helloWorldFPGA icon on the Desktop
 Support:            support@accelize.com

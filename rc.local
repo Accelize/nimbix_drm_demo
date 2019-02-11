@@ -15,4 +15,3 @@ cp /opt/accelize/helloworld_fpga/README.md /home/nimbix/Desktop/README.md
 cp /opt/accelize/helloworld_fpga/helloworld_fpga.desktop /home/nimbix/Desktop/helloworld_fpga.desktop
 chmod +x /home/nimbix/Desktop/helloworld_fpga.desktop
 exit 0
-

@@ -97,10 +97,6 @@ std::string  AppLogoSmall("\
   / _ \\ (_| (__| _|| |__ | | / /| _|  | __ / -_) | / _ \\ \\/\\/ / _ \\ '_| / _` | | _||  _/ (_ |/ _ \\ \n\
  /_/ \\_\\___\\___|___|____|___/___|___| |_||_\\___|_|_\\___/\\_/\\_/\\___/_| |_\\__,_| |_| |_|  \\___/_/ \\_\\\n"
 );
- 
- 
-// Prototypes
-void waddToRingBuffer(int32_t slotID, std::string newEntry, color_t color=NOCOLOR);
 
 /**
  * 
@@ -422,17 +418,6 @@ void gui_unameupdate()
                     gLicenseModeStr[gUserNameIndex], BOLDWHITE_COLOR);
     wborder(gUnameWin      , '|', '|', '-', '-', '+', '+', '+', '+');
     wrefresh(gUnameWin);
-}
-
-/**
- * 
- */
-void waddToRingBuffer(int32_t slotID, std::string newEntry, color_t color)
-{
-    addToRingBuffer(slotID, newEntry, color);
-#if ENABLE_LOGS
-    //gui_rbupdate();
-#endif
 }
 
 /**

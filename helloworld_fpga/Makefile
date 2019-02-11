@@ -8,7 +8,7 @@
 AWS=0
 #
 
-EXENAME := helloworld_fpga
+EXENAME := helloWorldFPGA
 CURDIR := $(shell pwd)
 
 CXX_EXT := cpp
@@ -80,19 +80,19 @@ install: uninstall
 	@mkdir -p /opt/accelize
 	@cp -rf $(CURDIR) /opt/accelize/helloworld_fpga
 	@chmod -R 755 /opt/accelize
-	@rm -f /usr/sbin/helloworld
-	@ln -s /opt/accelize/helloworld_fpga/autorun.sh /usr/sbin/helloworld
+	@rm -f /usr/sbin/helloWorldFPGA
+	@ln -s /opt/accelize/helloworld_fpga/autorun.sh /usr/sbin/helloWorldFPGA
 	@$(eval USERS := $(wildcard /home/*))
 	@-for userdir in $(USERS); do \
-		cp helloworld_fpga.desktop $$userdir/Desktop/helloworld_fpga.desktop;\
+		cp helloWorldFPGA.desktop $$userdir/Desktop/helloWorldFPGA.desktop;\
 	done
 
 uninstall:
 	@rm -rf /opt/accelize/helloworld_fpga
-	@rm -f /usr/sbin/helloworld
+	@rm -f /usr/sbin/helloWorldFPGA
 	@$(eval USERS := $(wildcard /home/*))
 	@-for userdir in $(USERS); do \
-		rm -f $$userdir/Desktop/helloworld_fpga.desktop;\
+		rm -f $$userdir/Desktop/helloWorldFPGA.desktop;\
 	done
   
 check_env:

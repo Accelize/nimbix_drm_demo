@@ -21,6 +21,12 @@ limitations under the License.
 #endif
 #endif
 
+#define RESET           "\033[0m"
+#define BOLDWHITE       "\033[1m\033[37m"    /* Bold White  */
+#define BOLDRED         "\033[1m\033[31m"    /* Bold Red    */
+#define BOLDGREEN       "\033[1m\033[32m"    /* Bold Green  */
+#define BOLDYELLOW      "\033[1m\033[33m"    /* Bold Yellow */
+
 /**
  * Slot thread
  */
@@ -39,7 +45,7 @@ void SlotThread(uint32_t slotID)
             }
             if(fsm > FSM_IDLE)
                 uninitFPGA(slotID);
-            waddToRingBuffer(slotID, std::string("[INFO] Ready ..."));
+            addToRingBuffer(slotID, std::string("[INFO] Ready ..."));
             fsm = FSM_IDLE; 
         }
         
@@ -52,9 +58,9 @@ void SlotThread(uint32_t slotID)
                 gDashboard.slot[slotID].sessionID = std::string("");
                 gDashboard.slot[slotID].usageUnits = std::string("");
                 if(gDashboard.slot[slotID].slotOn) {
-                    waddToRingBuffer(slotID, std::string("[INFO] Initializing FPGA ..."));   
+                    addToRingBuffer(slotID, std::string("[INFO] Initializing FPGA ..."));   
                     if(initFPGA(slotID)) {
-                        waddToRingBuffer(slotID, std::string("[ERROR] FPGA Initialization"), ERROR_COLOR);
+                        addToRingBuffer(slotID, std::string("[ERROR] FPGA Initialization"), ERROR_COLOR);
                         gDashboard.slot[slotID].slotOn = !gDashboard.slot[slotID].slotOn;   
                         gDashboard.slot[gDashboard.hlCell.slotID].drmStatus = 0;
                         fsm = FSM_IDLE;
@@ -65,7 +71,7 @@ void SlotThread(uint32_t slotID)
                 break;
                 
             case FSM_INIT:
-                waddToRingBuffer(slotID, std::string("[INFO] Initializing Metering Session Manager ..."));                                   
+                addToRingBuffer(slotID, std::string("[INFO] Initializing Metering Session Manager ..."));                                   
                 try {
                     pDrmManag = new DrmManager(
                         DRMDEMO_PATH + gDrmLibConfPath[gUserNameIndex] + std::string("conf.json"),
@@ -84,10 +90,10 @@ void SlotThread(uint32_t slotID)
                 catch (const std::exception& e) {                       
                     if(gUserNameIndex==LICENSE_MODE_NODELOCKED) {
                         gDashboard.slot[slotID].appState = STATE_NO_LIC;
-                        waddToRingBuffer(slotID, std::string("[ERROR] No Local License File found"), WARNING_COLOR); 
+                        addToRingBuffer(slotID, std::string("[ERROR] No Local License File found"), WARNING_COLOR); 
                     }
                     else
-                        waddToRingBuffer(slotID, std::string("[ERROR] Metering Session Manager Init Failed"), ERROR_COLOR);   
+                        addToRingBuffer(slotID, std::string("[ERROR] Metering Session Manager Init Failed"), ERROR_COLOR);   
                     fsm = FSM_INIT;
                     break;
                 }
@@ -95,7 +101,7 @@ void SlotThread(uint32_t slotID)
                 break;
                 
             case FSM_START_SESSION: 
-                waddToRingBuffer(slotID, std::string("[INFO] Starting Session ..."));                
+                addToRingBuffer(slotID, std::string("[INFO] Starting Session ..."));                
                 try {
                     pDrmManag->activate();
                     fsm = FSM_RUNNING;
@@ -104,15 +110,15 @@ void SlotThread(uint32_t slotID)
                 catch (const std::exception& e) {
                     if(gUserNameIndex==LICENSE_MODE_FLOATING) {
                         gDashboard.slot[slotID].appState = STATE_NO_SEAT;
-                        waddToRingBuffer(slotID, std::string("[ERROR] No Seat Available"), WARNING_COLOR);   
+                        addToRingBuffer(slotID, std::string("[ERROR] No Seat Available"), WARNING_COLOR);   
                     }                   
                     if(gUserNameIndex==LICENSE_MODE_NODELOCKED) {
                         gDashboard.slot[slotID].appState = STATE_NO_LIC;
-                        waddToRingBuffer(slotID, std::string("[ERROR] No Local License File found"), WARNING_COLOR); 
+                        addToRingBuffer(slotID, std::string("[ERROR] No Local License File found"), WARNING_COLOR); 
                     }                   
                     if(gUserNameIndex==LICENSE_MODE_METERED) {
                         gDashboard.slot[slotID].appState = STATE_ERROR;
-                        waddToRingBuffer(slotID, std::string("[ERROR] Start Metering Session Failed"), ERROR_COLOR);  
+                        addToRingBuffer(slotID, std::string("[ERROR] Start Metering Session Failed"), ERROR_COLOR);  
                     }
                     delete pDrmManag;
                     fsm = FSM_INIT;
@@ -127,11 +133,11 @@ void SlotThread(uint32_t slotID)
                         pDrmManag->deactivate();
                         delete pDrmManag;
                         uninitFPGA(slotID);
-                        waddToRingBuffer(slotID, std::string("[INFO] Ready ..."));
+                        addToRingBuffer(slotID, std::string("[INFO] Ready ..."));
                         fsm = FSM_IDLE;
                     }
                     else {
-                        waddToRingBuffer(slotID, std::string("[INFO] Reading DRM Status ..."));
+                        addToRingBuffer(slotID, std::string("[INFO] Reading DRM Status ..."));
                         my_read_userip(slotID, 0, &reg);
                         gDashboard.slot[slotID].drmStatus  = (reg&0x01)?IP_STATUS_ACTIVATED:IP_STATUS_LOCKED;
                         gDashboard.slot[slotID].sessionID  = pDrmManag->get<std::string>(session_id);
@@ -141,11 +147,11 @@ void SlotThread(uint32_t slotID)
                 catch (const std::exception& e) {
                     if(gUserNameIndex==LICENSE_MODE_FLOATING) {
                         gDashboard.slot[slotID].appState = STATE_NO_SEAT;
-                        waddToRingBuffer(slotID, std::string("[ERROR] No Seat Available"), WARNING_COLOR);   
+                        addToRingBuffer(slotID, std::string("[ERROR] No Seat Available"), WARNING_COLOR);   
                     }                                       
                     if(gUserNameIndex==LICENSE_MODE_METERED) {
                         gDashboard.slot[slotID].appState = STATE_ERROR;
-                        waddToRingBuffer(slotID, std::string("[ERROR] Metering Session Failed"), ERROR_COLOR);    
+                        addToRingBuffer(slotID, std::string("[ERROR] Metering Session Failed"), ERROR_COLOR);    
                     }
                 }
                 break;
@@ -187,13 +193,14 @@ void SlotThread(uint32_t slotID)
 int parse_cmdline_arguments(int argc, char*argv[])
 {
     std::string userName("mary@acme.com");
-    const char* const short_opts = "n:u:v:dfh?";
+    const char* const short_opts = "n:u:v:dgfh?";
     const option long_opts[] = {
             {"nb_slots", required_argument, nullptr, 'n'},
             {"user", required_argument, nullptr, 'u'},
             {"fullscreen", no_argument, nullptr, 'f'},
             {"verbose", no_argument, nullptr, 'v'},
             {"debug", no_argument, nullptr, 'd'},
+            {"gui", no_argument, nullptr, 'g'},
             {"help", no_argument, nullptr, 'h'},
             {nullptr, no_argument, nullptr, 0}
     };    
@@ -206,22 +213,25 @@ int parse_cmdline_arguments(int argc, char*argv[])
         switch(opt) {
             case 'n':
                 gDashboard.nbSlots = std::stoi(optarg);
-                waddToRingBuffer(-1, std::string("[INFO] Nb Slots = ") + to_string(gDashboard.nbSlots));
+                addToRingBuffer(-1, std::string("[INFO] Nb Slots = ") + to_string(gDashboard.nbSlots));
                 break;
             case 'u':
                 userName = std::string(optarg);
-                waddToRingBuffer(-1, std::string("[INFO] Username = ") + userName);
+                addToRingBuffer(-1, std::string("[INFO] Username = ") + userName);
                 break;
             case 'f':
                 gFullScreenMode=true;
-                waddToRingBuffer(-1, std::string("[INFO] Running in Fullscreen Mode"));
+                addToRingBuffer(-1, std::string("[INFO] Running in Fullscreen Mode"));
                 break;            
             case 'v':
                 setenv("ACCELIZE_DRM_VERBOSE", optarg, 1);
-                waddToRingBuffer(-1, std::string("[INFO] Running in Verbose Mode Level ")+std::string(optarg));
+                addToRingBuffer(-1, std::string("[INFO] Running in Verbose Mode Level ")+std::string(optarg));
                 break;
             case 'd':
                 gDebugMode=true;
+                break;
+            case 'g':
+                gGuiMode=true;
                 break;
             case 'h':
             case '?':
@@ -335,25 +345,8 @@ int32_t debugMode(uint32_t slotID)
 }
 
 
-/**
- * 
- */
-int main(int argc, char **argv) 
-{       
-    gDashboard.nbSlots = MAX_NB_SLOTS;
-    
-    /* Retrieve input arguments */
-    if(parse_cmdline_arguments(argc, argv))
-        return 1;
-        
-    /* HAL Sanity Check */
-    if(halSanityCheck())
-        return 1;
-        
-    if(gDebugMode) {
-        return debugMode(0);
-    }
-    
+int32_t guiMode()
+{
     if(gui_init())
         return 1; 
     
@@ -372,7 +365,170 @@ int main(int argc, char **argv)
     
     gui_uninit();
     
-    std::cout << gExitMessage << std::endl;
     return 0;
 }
 
+
+std::vector<uint32_t> parse_board_arg_string(std::string arg, char sep=',')
+{
+    std::vector<uint32_t> vect;
+    std::stringstream ss(arg);
+    uint32_t i;
+    while (ss >> i)
+    {
+        vect.push_back(i);
+
+        if (ss.peek() == ',')
+            ss.ignore();
+    }
+
+    for (i=0; i< vect.size(); i++) {
+        if(vect.at(i)==0 || vect.at(i)>MAX_NB_SLOTS) {
+            cout << BOLDRED << "ERROR: BoardID must be in range [1:"<< MAX_NB_SLOTS << "]. Skipping ID " << vect.at(i) << " ..." << RESET << endl;
+            vect.erase(vect.begin()+i);
+        }
+    }
+    return vect;
+}
+
+void start_board_apps(std::vector<uint32_t> boardIDs)
+{
+    for (uint32_t i=0; i< boardIDs.size(); i++) {
+        uint32_t boardID = boardIDs.at(i);
+        if(gDashboard.slot[boardID-1].slotOn)
+            cout << BOLDYELLOW << "WARNING: Board [" << boardID << "] already started, nothing to do ..." << RESET << endl;
+        else {          
+            gDashboard.slot[boardID-1].slotOn = true;
+            int32_t timeout_secs=20;
+            
+            // Wait IP Activation
+            while(timeout_secs && gDashboard.slot[boardID-1].drmStatus!=IP_STATUS_ACTIVATED) {
+                cout << "." << std::flush;
+                sleep(1);
+                timeout_secs--;
+            }
+            // Wait Session ID Retrieval (except for NL/User modes)
+            if(timeout_secs && gUserNameIndex!=nancyIdx) {
+               while(timeout_secs &&
+                    (gDashboard.slot[boardID-1].sessionID==string(""))) {
+                    cout << "." << std::flush;
+                    sleep(1);
+                    timeout_secs--;
+                }
+            } 
+            
+            cout << endl;
+            if(timeout_secs>0) {
+                cout << BOLDGREEN
+                     << "\nHello World from Board " << boardID  
+                     //<< " [SessionID = " << gDashboard.slot[boardID-1].sessionID << "]"
+                     //<< " [License = " << gLicenseModeStr[gUserNameIndex] << "]"
+                     << "\n" << RESET << endl;      
+            }
+            else {
+                cout << BOLDYELLOW << "\nWARNING: Board [" << boardID << "] activation failed" << RESET << endl;
+                gDashboard.slot[boardID-1].slotOn = false;
+            }
+        }
+    }
+}
+
+void stop_board_apps(std::vector<uint32_t> boardIDs)
+{
+    for (uint32_t i=0; i< boardIDs.size(); i++) {
+        uint32_t boardID = boardIDs.at(i);
+        if(!gDashboard.slot[boardID-1].slotOn)
+            cout << BOLDYELLOW << "WARNING: Board [" << boardID << "] already stopped, nothing to do ..." << RESET << endl;
+        else
+            gDashboard.slot[boardID-1].slotOn = false;
+    }
+}
+
+int32_t cliMode()
+{
+    gQuietMode=true;
+    string cliCMD("");
+    string boardArgs;
+    string menuHeader("[Enter Command ('help' for help)] : ");
+    bExit=false; 
+    
+    // Start slot threads
+    thread slot_threads[MAX_NB_SLOTS];
+    for(uint32_t i=0; i<MAX_NB_SLOTS; i++)
+        slot_threads[i] = thread(SlotThread, i);
+    
+    while(!bExit) {    
+        cout << endl << menuHeader;  
+        cin >> cliCMD;        
+        
+        if(cliCMD=="start") {
+            cin >> boardArgs;
+            std::vector<uint32_t> boardIDs = parse_board_arg_string(boardArgs);
+            start_board_apps(boardIDs);
+        }
+        else if (cliCMD=="stop") {
+            cin >> boardArgs;
+            std::vector<uint32_t> boardIDs = parse_board_arg_string(boardArgs);
+            stop_board_apps(boardIDs);
+        }
+        else if (cliCMD=="quit" || cliCMD=="q" || cliCMD=="Q") {
+            for(uint32_t i=0; i<MAX_NB_SLOTS; i++)
+                gDashboard.slot[i].slotOn = false;
+            bExit=true;
+        }
+        else if (cliCMD=="report") {
+            for(uint32_t i=0; i<gDashboard.nbSlots; i++)
+                if(gDashboard.slot[i].slotOn)
+                    cout << BOLDWHITE << "Board [" << i+1  << "]"
+                     << " [SessionID = " << gDashboard.slot[i].sessionID << "]"
+                     << " [License = " << gLicenseModeStr[gUserNameIndex] << "]"
+                     << RESET << endl;
+        }
+        else {
+            cout << "--------------------------------------------------------------------"          << endl;
+            cout << " 'start <BoardID1,BoardID2,...>'     => Start application on selected boards"  << endl;
+            cout << " 'stop  <BoardID1,BoardID2,...>'     => Start application on selected boards"  << endl;
+            cout << " 'report'                            => Report infos of started boards"        << endl;
+            cout << " 'h'/'H'/'?'/'help'                  => Print this menu"                       << endl;
+            cout << " 'q'/'Q'/'quit'                      => Quit application"                      << endl;
+            cout << "--------------------------------------------------------------------"          << endl;
+        }
+    }
+    
+    // Join threads
+    for(uint32_t i=0; i<gDashboard.nbSlots; i++)
+        slot_threads[i].join();
+        
+    return 0;
+}
+
+
+/**
+ * 
+ */
+int main(int argc, char **argv) 
+{      
+    gDashboard.nbSlots = MAX_NB_SLOTS;
+    
+    /* Retrieve input arguments */
+    if(parse_cmdline_arguments(argc, argv))
+        return 1;
+        
+    /* HAL Sanity Check */
+    if(halSanityCheck())
+        return 1;
+        
+    if(gDebugMode) {
+        return debugMode(0);
+    }
+    else if(gGuiMode) {
+        int32_t ret = guiMode();
+        std::cout << gExitMessage << std::endl;
+        return ret;
+    }
+    else
+        cliMode();
+    
+    
+    return 0;
+}

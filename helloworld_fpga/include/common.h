@@ -27,6 +27,7 @@ limitations under the License.
 #include <fstream>
 #include <mutex>
 #include <time.h>
+#include <sstream>
 
 bool gDebugMode = false;
 using namespace std;
@@ -64,6 +65,8 @@ typedef enum {
 enum userNameIdx{ nancyIdx=0, fannyIdx, maryIdx, userIdx, nbIdx};
 uint32_t gUserNameIndex=maryIdx;
 bool gFullScreenMode=false;
+bool gGuiMode=false;
+bool gQuietMode=false;
 std::string gAllowedUsers[]    = {std::string("nancy@acme.com"), std::string("fanny@acme.com"), std::string("mary@acme.com"), std::string("user@company.com")};
 std::string gLicenseModeStr[]  = {std::string("NODELOCKED"), std::string("FLOATING (3 seats)"), std::string("METERED"), std::string("CUSTOM")};
 std::string gAppStatusStr[]    = {std::string(" - "), std::string("STARTED")};
@@ -224,6 +227,9 @@ void setUserName(std::string userName)
  */
 void addToRingBuffer(int32_t slotID, std::string newEntry, color_t color=NOCOLOR)
 {
+	if(gQuietMode)
+		return;
+		
     if(gDebugMode) {
         std::string txt =  std::string("Slot ") + std::to_string(slotID)  + std::string(": ") + newEntry;
         printf("%s\n", txt.c_str());

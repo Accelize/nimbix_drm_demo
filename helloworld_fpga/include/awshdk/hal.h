@@ -13,7 +13,6 @@ limitations under the License.
 
 #ifdef NOGUI
 #include "common.h"
-#define waddToRingBuffer(...) addToRingBuffer(__VA_ARGS__)
 #else
 #include "gui.h"
 #endif
@@ -107,9 +106,9 @@ int32_t progFPGA(uint32_t slotID)
 int32_t initFPGA(uint32_t slotID)
 {   
     /* Program FPGA from selected slot */
-    waddToRingBuffer(slotID, std::string("[INFO] Programming FPGA ..."));    
+    addToRingBuffer(slotID, std::string("[INFO] Programming FPGA ..."));    
     if(progFPGA(slotID)) {
-        waddToRingBuffer(slotID, std::string("[ERROR] FPGA Programmation failed ..."), ERROR_COLOR);
+        addToRingBuffer(slotID, std::string("[ERROR] FPGA Programmation failed ..."), ERROR_COLOR);
         gDashboard.slot[slotID].appState = STATE_ERROR;
         return -1;
     }
@@ -127,7 +126,7 @@ int32_t initFPGA(uint32_t slotID)
  */
 void uninitFPGA(uint32_t slotID)
 {
-    waddToRingBuffer(slotID, std::string("[INFO] Uninit FPGA ..."));
+    addToRingBuffer(slotID, std::string("[INFO] Uninit FPGA ..."));
     gDashboard.slot[slotID].appState = STATE_IDLE;
 }
 
@@ -141,13 +140,13 @@ int sanity_check(uint32_t slotID)
 
     /* get local image description, contains status, vendor id, and device id. */
     if(fpga_mgmt_describe_local_image(slotID, &info,0)) {
-        waddToRingBuffer(slotID, std::string("[ERROR] Unable to get AFI information. Are you running as root?"), ERROR_COLOR);    
+        addToRingBuffer(slotID, std::string("[ERROR] Unable to get AFI information. Are you running as root?"), ERROR_COLOR);    
         return 1;  
     }
 
     /* check to see if the slot is ready */
     if (info.status != FPGA_STATUS_LOADED) {
-        waddToRingBuffer(slotID, std::string("[ERROR] AFI is not in READY state !"), ERROR_COLOR);
+        addToRingBuffer(slotID, std::string("[ERROR] AFI is not in READY state !"), ERROR_COLOR);
         return 1;
     }
 

@@ -13,7 +13,6 @@ limitations under the License.
 
 #ifdef NOGUI
 #include "common.h"
-#define waddToRingBuffer(...) addToRingBuffer(__VA_ARGS__)
 #else
 #include "gui.h"
 #endif
@@ -72,8 +71,8 @@ int32_t progFPGA(uint32_t slotID)
  */
 int32_t initFPGA(uint32_t slotID)
 {
-    waddToRingBuffer(slotID, std::string("[INFO] Programming FPGA ..."));    
-    waddToRingBuffer(slotID, std::string("[INFO] Initit FPGA successfull ..."));
+    addToRingBuffer(slotID, std::string("[INFO] Programming FPGA ..."));    
+    addToRingBuffer(slotID, std::string("[INFO] Initit FPGA successfull ..."));
     return 0;
 }
 
@@ -82,7 +81,7 @@ int32_t initFPGA(uint32_t slotID)
  */
 void uninitFPGA(uint32_t slotID)
 {
-    waddToRingBuffer(slotID, std::string("[INFO] Uninit FPGA ..."));
+    addToRingBuffer(slotID, std::string("[INFO] Uninit FPGA ..."));
     gDashboard.slot[slotID].appState = STATE_IDLE;
 }
 

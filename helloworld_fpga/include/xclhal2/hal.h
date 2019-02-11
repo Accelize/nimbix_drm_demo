@@ -12,7 +12,6 @@ limitations under the License.
 */
 #ifdef NOGUI
 #include "common.h"
-#define waddToRingBuffer(...) addToRingBuffer(__VA_ARGS__)
 #else
 #include "gui.h"
 #endif
@@ -139,36 +138,36 @@ int32_t progFPGA(uint32_t slotID)
 int32_t initFPGA(uint32_t slotID)
 {
     /* Program FPGA from selected slot */
-    waddToRingBuffer(slotID, std::string("[INFO] Programming FPGA ..."));    
+    addToRingBuffer(slotID, std::string("[INFO] Programming FPGA ..."));    
     if(progFPGA(slotID)) {
-        waddToRingBuffer(slotID, std::string("[ERROR] FPGA Programmation failed ..."), ERROR_COLOR);
+        addToRingBuffer(slotID, std::string("[ERROR] FPGA Programmation failed ..."), ERROR_COLOR);
         gDashboard.slot[slotID].appState = STATE_ERROR;
         return -1;
     }
     if(xclProbe() < 1) {
-        waddToRingBuffer(slotID, std::string("[ERROR] xclProbe failed ..."), ERROR_COLOR);
+        addToRingBuffer(slotID, std::string("[ERROR] xclProbe failed ..."), ERROR_COLOR);
         gDashboard.slot[slotID].appState = STATE_ERROR;
         return -1;
     }
-    waddToRingBuffer(slotID, std::string("[INFO] xclProbe success ..."));
+    addToRingBuffer(slotID, std::string("[INFO] xclProbe success ..."));
     
     std::string logFileName = std::string("xcl_run_") + std::to_string(slotID) + std::string(".log");
     xclVerbosityLevel level = XCL_ERROR;
     gHandle[slotID] = xclOpen(slotID, logFileName.c_str(), level);
     if(gHandle[slotID] == NULL) {
-        waddToRingBuffer(slotID, std::string("[ERROR] xclOpen failed ..."), ERROR_COLOR);
+        addToRingBuffer(slotID, std::string("[ERROR] xclOpen failed ..."), ERROR_COLOR);
         gDashboard.slot[slotID].appState = STATE_ERROR;
         return -1;
     }
-    waddToRingBuffer(slotID, std::string("[INFO] xclOpen success ..."));
+    addToRingBuffer(slotID, std::string("[INFO] xclOpen success ..."));
 
     int32_t ret = xclLockDevice(gHandle[slotID]);
     if(ret != 0) {
-        waddToRingBuffer(slotID, std::string("[ERROR] xclLockDevice failed ..."), ERROR_COLOR);
+        addToRingBuffer(slotID, std::string("[ERROR] xclLockDevice failed ..."), ERROR_COLOR);
         gDashboard.slot[slotID].appState = STATE_ERROR;
         return ret;
     }
-    waddToRingBuffer(slotID, std::string("[INFO] xclLockDevice success ..."));
+    addToRingBuffer(slotID, std::string("[INFO] xclLockDevice success ..."));
     return 0;
 }
 
@@ -179,7 +178,7 @@ void uninitFPGA(uint32_t slotID)
 {
     xclUnlockDevice(gHandle[slotID]);
     xclClose(gHandle[slotID]);
-    waddToRingBuffer(slotID, std::string("[INFO] Uninit FPGA ..."));
+    addToRingBuffer(slotID, std::string("[INFO] Uninit FPGA ..."));
     gDashboard.slot[slotID].appState = STATE_IDLE;
 }
 

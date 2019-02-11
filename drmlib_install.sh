@@ -13,8 +13,11 @@ fi
 if [ ${USEAPT} -eq 1 ]
 then 
     sudo apt-get update -y
-    sudo apt-get install -y git cmake libcurl4-openssl-dev libjsoncpp-dev    
+    sudo apt-get install -y git cmake libcurl4-openssl-dev libjsoncpp-dev
+    
     # Install CMAKE 3.13.4
+    sudo apt remove --purge --auto-remove cmake
+    
     alias cmake=cmake3
     version=3.13
     build=4
@@ -32,11 +35,11 @@ then
 fi
 
 rm -rf drmlib
-git clone https://github.com/Accelize/drmlib drmlib
+git clone --single-branch --branch dev https://github.com/Accelize/drmlib drmlib
 cd drmlib/
 mkdir build
 cd build/
-alias cmake=cmake3; cmake ..
+cmake ..
 make -j8
 sudo make install
 cd ../..

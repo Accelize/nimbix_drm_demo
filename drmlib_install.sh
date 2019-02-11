@@ -21,8 +21,8 @@ fi
 sudo pip3 install cmake
 rm -rf drmlib
 git clone --single-branch --branch dev https://github.com/Accelize/drmlib drmlib
-git checkout 164904d8f2cab765ee78004bd543d328be4d1d9d
 cd drmlib/
+git checkout 164904d8f2cab765ee78004bd543d328be4d1d9d
 mkdir build
 cd build/
 cmake ..

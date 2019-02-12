@@ -1,0 +1,9 @@
+#!/bin/bash
+
+export ACCELIZE_DRM_VERBOSE=0 
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/software/Xilinx/SDx_2017.4_op/SDx/2017.4.op/runtime/lib/x86_64
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/home/huaweicloud-fpga/fp1/software/userspace/sdaccel/lib/runtime/platforms/hal/driver
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib64
+
+./helloWorldFPGA $*
+

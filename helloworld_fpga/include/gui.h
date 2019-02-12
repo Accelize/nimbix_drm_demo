@@ -371,7 +371,7 @@ void gui_periodic_update()
         WINDOW* appOutputWin = gDBcols[slotID].appOutput;
         std::string appOutputStr("");
         if(gDashboard.slot[slotID].drmStatus==IP_STATUS_ACTIVATED)
-            appOutputStr = std::string("Hello from ") + to_string(slotID) + std::string(" !");     
+            appOutputStr = std::string("Hello from ") + to_string(slotID+1) + std::string(" !");     
         printCentered(appOutputWin, appOutputStr);
         wborder(appOutputWin , '|', '|', '-', '-', '+', '+', '+', '+');
         wrefresh(appOutputWin);

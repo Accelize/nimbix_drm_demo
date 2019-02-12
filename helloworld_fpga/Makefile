@@ -32,6 +32,7 @@ OBJS := $(patsubst %.$(CXX_EXT), %.o, $(SRCS))
 CXXFLAGS += -Iinclude -I$(SDK_DIR)/userspace/include
 LDFLAGS += 
 LDLIBS += -lrt -pthread -lncurses
+RUNSCRIPT=run.sh.op
 
 # Debug Mode
 ifeq ($(DEBUG),1)
@@ -51,20 +52,38 @@ else ifeq ($(AWS),1)
 	LDFLAGS += $(XRT_LIBDIR)
 	LDLIBS += -lxrt_aws -lfpga_mgmt $(XLZDRM_LIB)
 	CSP := -DAWS	
+	RUNSCRIPT := run.sh.aws
+else ifeq ($(HUAWEI),1)
+	CXXFLAGS += -I${XILINX_SDX}/runtime/include/1_2
+	LDFLAGS += -L${XILINX_SDX}/runtime/lib/x86_64
+	LDFLAGS += -L${XILINX_SDX}/lib/lnx64.o/ -lxilinxopencl -lrt -pthread -lstdc++ -lboost_filesystem
+
+	XRT_ROOT    := /home/huaweicloud-fpga/fp1/software/userspace/sdaccel/driver/xclgemhal/driver
+	XRT_INC_DIR := -I$(XRT_ROOT)/include
+	XRT_LIBDIR  := -L/home/huaweicloud-fpga/fp1/software/userspace/sdaccel/lib/runtime/platforms/hal/driver
+	XRT_LIB     := -lxclgemdrv
+
+	CXXFLAGS +=  -Iinclude -I$(SDK_DIR)/userspace/include $(XRT_INC_DIR)
+	LDFLAGS += $(XRT_LIBDIR)
+	LDLIBS += $(XRT_LIB) $(XLZDRM_LIB) 
+	CSP := -DHUAWEI
+	RUNSCRIPT := run.sh.huawei
 else
 	CXXFLAGS += -Iinclude/xclhal2 $(XRT_INC_DIR)
 	LDFLAGS += $(XRT_LIBDIR)
 	LDLIBS += $(XRT_LIB) $(XLZDRM_LIB)
+	RUNSCRIPT := run.sh.op
 endif
 
 ifeq ($(PROV),1)
 	NLPROV := -DNLPROV
 endif
 
-test:
-	echo "CURDIR=$(CURDIR)"
+run_script:
+	@echo "RUNSCRIPT=$(RUNSCRIPT)"
+	@cp $(RUNSCRIPT) run.sh
 
-all : check_env $(EXENAME)
+all : check_env $(EXENAME) run_script
 
 %.o: %.$(CXX_EXT)
 	$(CXX) $(CXXFLAGS) $(MYCFLAGS) $(MYCXXFLAGS) $(CSP) $(NLPROV) -c $< -o $@
@@ -99,6 +118,11 @@ check_env:
 ifeq ($(AWS),1)
 ifndef SDK_DIR
 	@$(error SDK_DIR is undefined. Try "source /opt/aws-fpga/sdk_setup.sh" to set the software environment)
+endif
+endif
+ifeq ($(HUAWEI),1)
+ifndef FPGA_TOOL_DIR
+    @$(error FP1 environment not configured. Try "source /home/huaweicloud-fpga/fp1/setup.sh" to setup the FP1 environment)
 endif
 endif
 

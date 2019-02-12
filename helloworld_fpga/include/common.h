@@ -227,10 +227,10 @@ void setUserName(std::string userName)
  */
 void addToRingBuffer(int32_t slotID, std::string newEntry, color_t color=NOCOLOR)
 {
-	if(gQuietMode)
-		return;
-		
-    if(gDebugMode) {
+    if(gQuietMode)
+        return;
+        
+    if(!gGuiMode) {
         std::string txt =  std::string("Slot ") + std::to_string(slotID)  + std::string(": ") + newEntry;
         printf("%s\n", txt.c_str());
         return;
@@ -289,3 +289,18 @@ void slotUpdate(void)
     gDashboard.slot[gDashboard.hlCell.slotID].slotOn = !gDashboard.slot[gDashboard.hlCell.slotID].slotOn;
     gDashboard.slot[gDashboard.hlCell.slotID].drmStatus = gDashboard.slot[gDashboard.hlCell.slotID].slotOn?IP_STATUS_STARTING:IP_STATUS_UNKNOWN;    
 }
+
+/**
+ *
+ */
+typedef uint32_t (*func_t)(void);
+uint32_t runMutedFunction(func_t pFunc)
+{
+    std::streambuf* cout_sbuf = std::cout.rdbuf(); // save original sbuf
+    std::ofstream   fout("/dev/null");
+    std::cout.rdbuf(fout.rdbuf()); // redirect 'cout' to a 'fout'
+    uint32_t ret = pFunc();
+    std::cout.rdbuf(cout_sbuf); // restore the original stream buffer
+    return ret;
+}
+

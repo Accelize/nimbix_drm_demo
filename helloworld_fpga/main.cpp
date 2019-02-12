@@ -454,7 +454,7 @@ int32_t cliMode()
     
     // Start slot threads
     thread slot_threads[MAX_NB_SLOTS];
-    for(uint32_t i=0; i<MAX_NB_SLOTS; i++)
+    for(uint32_t i=0; i<gDashboard.nbSlots; i++)
         slot_threads[i] = thread(SlotThread, i);
     
     while(!bExit) {    

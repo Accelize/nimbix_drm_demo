@@ -14,7 +14,7 @@ fi
 if [ ${USEAPT} -eq 1 ]
 then 
     sudo apt-get update -y
-    sudo apt-get install -y git libcurl4-openssl-dev libjsoncpp-dev
+    sudo apt-get install -y git libcurl4-openssl-dev libjsoncpp-dev python3-pip
     sudo apt remove --purge --auto-remove cmake
 fi
 

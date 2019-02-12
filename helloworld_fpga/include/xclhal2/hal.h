@@ -22,8 +22,15 @@ using namespace Accelize::DRM;
 std::mutex gDrmMutex;
 
 #include <xclhal2.h>
+#if HUAWEI
+//#define XCLBIN_PATH std::string("8aace0c6689a2a300168c1dedea57d3c") //=> HDK 3.0
+#define XCLBIN_PATH std::string("8aace0c7689a2b5b0168c6b88d935896") //=> HDK 3.2
+#define FPGA_PROG_CMD std::string("FpgaCmdEntry LF -S ")
+#define SDX_KERNEL_BASE_ADDR    0x1800000
+#else
 #define XCLBIN_PATH std::string("/opt/accelize/helloworld_fpga/bitstreams/u200/binary_container_1.xclbin")
 #define FPGA_PROG_CMD std::string("/opt/xilinx/xrt/bin/xbutil program -p ")
+#endif
 
 // FPGA Design Defines
 #define SDX_KERNEL_BASE_ADDR    0x1800000
@@ -59,6 +66,8 @@ int32_t getBitstreamDSA(std::string & DSAname)
  */
 int32_t halSanityCheck(void)
 {
+#if HUAWEI
+#else
     std::string bitstreamDSA, vmDSA;
     std::string getVmDSAcmd("/opt/xilinx/xrt/bin/xbutil list | tail -1 | cut -d' ' -f3");
     if(getBitstreamDSA(bitstreamDSA)) return 1;
@@ -68,6 +77,7 @@ int32_t halSanityCheck(void)
         printf("[ERROR] VM DSA [%s] differs from bitstream DSA [%s]\n", vmDSA.c_str(), bitstreamDSA.c_str());
         return 1;
     }
+#endif
     return 0;
 }
 
@@ -119,15 +129,40 @@ int32_t my_read_userip(uint32_t slotID, uint32_t  addr, uint32_t * value)
     return 0;
 }
 
+
+/**
+ *  Wait FPGA Prog
+ */
+int32_t waitProgFPGA()
+{
+#if HUAWEI
+    std::string cmd = std::string("FpgaCmdEntry IF -S 0 | grep PROGRAMMED");
+    int32_t ret=1;
+    while(ret) {
+        ret = system(cmd.c_str());
+        ret = WEXITSTATUS(ret);   
+        //cout << "waitProgFPGA ret = " << ret << endl;
+    }
+#endif
+    return 0;
+}
+
 /*
  * Program_FPGA
  */
 int32_t progFPGA(uint32_t slotID)
 {
+#if HUAWEI
+    std::string cmd = FPGA_PROG_CMD + std::to_string(slotID) + std::string(" -I ") + XCLBIN_PATH;
+#else
     std::string cmd = FPGA_PROG_CMD + XCLBIN_PATH + std::string(" -d ") + std::to_string(slotID);
+#endif
     if(!gDebugMode)
         cmd += std::string(" > /dev/null");
     int32_t ret = system(cmd.c_str());
+#if HUAWEI
+    waitProgFPGA();
+#endif
     return WEXITSTATUS(ret);
 } 
 
@@ -144,7 +179,7 @@ int32_t initFPGA(uint32_t slotID)
         gDashboard.slot[slotID].appState = STATE_ERROR;
         return -1;
     }
-    if(xclProbe() < 1) {
+    if(runMutedFunction(xclProbe)<1) {
         addToRingBuffer(slotID, std::string("[ERROR] xclProbe failed ..."), ERROR_COLOR);
         gDashboard.slot[slotID].appState = STATE_ERROR;
         return -1;

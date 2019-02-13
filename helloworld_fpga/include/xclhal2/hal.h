@@ -28,7 +28,8 @@ std::mutex gDrmMutex;
 #define FPGA_PROG_CMD std::string("FpgaCmdEntry LF -S ")
 #define SDX_KERNEL_BASE_ADDR    0x1800000
 #else
-#define XCLBIN_PATH std::string("/opt/accelize/helloworld_fpga/bitstreams/u200/binary_container_1.xclbin")
+#define XCLBIN_PATH std::string("/opt/accelize/helloworld_fpga/bitstreams/")
+#define XCLBIN_FILE std::string("/binary_container_1.xclbin")
 #define FPGA_PROG_CMD std::string("/opt/xilinx/xrt/bin/xbutil program -p ")
 #endif
 
@@ -66,18 +67,6 @@ int32_t getBitstreamDSA(std::string & DSAname)
  */
 int32_t halSanityCheck(void)
 {
-#if HUAWEI
-#else
-    std::string bitstreamDSA, vmDSA;
-    std::string getVmDSAcmd("/opt/xilinx/xrt/bin/xbutil list | tail -1 | cut -d' ' -f3");
-    if(getBitstreamDSA(bitstreamDSA)) return 1;
-    if(sysCommand(getVmDSAcmd, vmDSA)) return 1;
-    
-    if(vmDSA != bitstreamDSA) {
-        printf("[ERROR] VM DSA [%s] differs from bitstream DSA [%s]\n", vmDSA.c_str(), bitstreamDSA.c_str());
-        return 1;
-    }
-#endif
     return 0;
 }
 
@@ -155,7 +144,11 @@ int32_t progFPGA(uint32_t slotID)
 #if HUAWEI
     std::string cmd = FPGA_PROG_CMD + std::to_string(slotID) + std::string(" -I ") + XCLBIN_PATH;
 #else
-    std::string cmd = FPGA_PROG_CMD + XCLBIN_PATH + std::string(" -d ") + std::to_string(slotID);
+    std::string vmDSA;
+    std::string getVmDSAcmd("/opt/xilinx/xrt/bin/xbutil list | tail -1 | cut -d' ' -f3");
+    if(sysCommand(getVmDSAcmd, vmDSA))
+        return 1;
+    std::string cmd = FPGA_PROG_CMD + XCLBIN_PATH + vmDSA + XCLBIN_FILE + std::string(" -d ") + std::to_string(slotID);
 #endif
     if(!gDebugMode)
         cmd += std::string(" > /dev/null");

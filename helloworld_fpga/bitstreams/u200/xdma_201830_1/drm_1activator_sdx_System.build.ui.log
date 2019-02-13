@@ -1,0 +1,24 @@
+2019-02-13T08:31:49.733254
+0,0,92,org.eclipse.cdt.ui.CONSOLE_PARTITION_TYPE,-
+1,92,10174,org.eclipse.cdt.ui.CONSOLE_PARTITION_TYPE,-
+1,10266,232,org.eclipse.cdt.ui.WARNING_PARTITION_TYPE,/drm_1activator_sdx/System​0​-1​-1​VPL 60-732: Link warning: One or more timing paths failed timing targeting 300.000000 MHz for kernel clock 'clkwiz_kernel_clk_out1'. The frequency is being automatically changed to 143.8 MHz to enable proper functionality​1​-
+1,10498,2210,org.eclipse.cdt.ui.CONSOLE_PARTITION_TYPE,-
+1,12708,213,org.eclipse.cdt.ui.WARNING_PARTITION_TYPE,/drm_1activator_sdx/src/sdx_rtl_kernel/sdx_kernel_wrapper/main.c​171​-1​-1​‘_cl_command_queue* clCreateCommandQueue(cl_context, cl_device_id, cl_command_queue_properties, cl_int*)’ is deprecated [-Wdeprecated-declarations]​1​-
+1,12921,231,org.eclipse.cdt.ui.CONSOLE_PARTITION_TYPE,-
+1,13152,49,org.eclipse.cdt.ui.INFO_PARTITION_TYPE,/drm_1activator_sdx/System​1443​-1​-1​declared here​0​-
+1,13201,90,org.eclipse.cdt.ui.CONSOLE_PARTITION_TYPE,-
+1,13291,213,org.eclipse.cdt.ui.WARNING_PARTITION_TYPE,/drm_1activator_sdx/src/sdx_rtl_kernel/sdx_kernel_wrapper/main.c​171​-1​-1​‘_cl_command_queue* clCreateCommandQueue(cl_context, cl_device_id, cl_command_queue_properties, cl_int*)’ is deprecated [-Wdeprecated-declarations]​1​-
+1,13504,260,org.eclipse.cdt.ui.CONSOLE_PARTITION_TYPE,-
+1,13764,49,org.eclipse.cdt.ui.INFO_PARTITION_TYPE,/drm_1activator_sdx/System​1443​-1​-1​declared here​0​-
+1,13813,90,org.eclipse.cdt.ui.CONSOLE_PARTITION_TYPE,-
+1,13903,200,org.eclipse.cdt.ui.WARNING_PARTITION_TYPE,/drm_1activator_sdx/src/sdx_rtl_kernel/sdx_kernel_wrapper/main.c​288​-1​-1​‘cl_int clEnqueueTask(cl_command_queue, cl_kernel, cl_uint, _cl_event* const*, _cl_event**)’ is deprecated [-Wdeprecated-declarations]​1​-
+1,14103,211,org.eclipse.cdt.ui.CONSOLE_PARTITION_TYPE,-
+1,14314,49,org.eclipse.cdt.ui.INFO_PARTITION_TYPE,/drm_1activator_sdx/System​1457​-1​-1​declared here​0​-
+1,14363,69,org.eclipse.cdt.ui.CONSOLE_PARTITION_TYPE,-
+1,14432,200,org.eclipse.cdt.ui.WARNING_PARTITION_TYPE,/drm_1activator_sdx/src/sdx_rtl_kernel/sdx_kernel_wrapper/main.c​288​-1​-1​‘cl_int clEnqueueTask(cl_command_queue, cl_kernel, cl_uint, _cl_event* const*, _cl_event**)’ is deprecated [-Wdeprecated-declarations]​1​-
+1,14632,244,org.eclipse.cdt.ui.CONSOLE_PARTITION_TYPE,-
+1,14876,49,org.eclipse.cdt.ui.INFO_PARTITION_TYPE,/drm_1activator_sdx/System​1457​-1​-1​declared here​0​-
+1,14925,2052,org.eclipse.cdt.ui.CONSOLE_PARTITION_TYPE,-
+1,16977,234,org.eclipse.cdt.ui.WARNING_PARTITION_TYPE,/drm_1activator_sdx/System​0​-1​-1​libgmp.so.11, needed by /tools/xilinx/vivado_2018.3/Vivado/2018.3/lnx64/tools/fft_v9_1/libIp_xfft_v9_1_bitacc_cmodel.so, may conflict with libgmp.so.7​1​-
+1,17211,234,org.eclipse.cdt.ui.WARNING_PARTITION_TYPE,/drm_1activator_sdx/System​0​-1​-1​libgmp.so.11, needed by /tools/xilinx/vivado_2018.3/Vivado/2018.3/lnx64/tools/fft_v9_1/libIp_xfft_v9_1_bitacc_cmodel.so, may conflict with libgmp.so.7​1​-
+0,17445,49,org.eclipse.cdt.ui.CONSOLE_PARTITION_TYPE,-

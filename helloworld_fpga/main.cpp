@@ -472,7 +472,7 @@ int32_t cliMode()
             stop_board_apps(boardIDs);
         }
         else if (cliCMD=="quit" || cliCMD=="q" || cliCMD=="Q") {
-            for(uint32_t i=0; i<MAX_NB_SLOTS; i++)
+            for(uint32_t i=0; i<gDashboard.nbSlots; i++)
                 gDashboard.slot[i].slotOn = false;
             bExit=true;
         }

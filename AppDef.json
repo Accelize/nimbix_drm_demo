@@ -8,7 +8,8 @@
     ],
     "machines": [
         "nx5u",
-        "nx5u_xdma_201830_1"
+        "nx5u_xdma_201830_1",
+        "nx6u_xdma_201830_1"
     ],
     "vault-types": [
         "FILE",
